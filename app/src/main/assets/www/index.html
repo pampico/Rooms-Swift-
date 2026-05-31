@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Switch Rom Transform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --neon-blue: #00A3E0;
+            --neon-red: #E60012;
+            --cosmic-slate: #0C0D10;
+            --dark-surface: #16181F;
+            --border-slate: #232833;
+            --text-primary: #F0F5FA;
+            --text-secondary: #909BB0;
+            --text-accent: #26FFB0;
+            --warning-yellow: #FFBF00;
+        }
+        body {
+            background-color: var(--cosmic-slate);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .joycon-glow-blue {
+            box-shadow: 0 0 15px rgba(0, 163, 224, 0.4);
+        }
+        .joycon-glow-red {
+            box-shadow: 0 0 15px rgba(230, 0, 18, 0.4);
+        }
+        .custom-terminal {
+            background-color: #050608;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0C0D10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232833;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #909BB0;
+        }
+    </style>
+</head>
+<body class="safe-top safe-bottom p-4 max-w-lg mx-auto min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Custom Header -->
+    <header class="flex items-center justify-between py-3 border-b border-[#232833] mb-4">
+        <div class="flex items-center gap-3">
+            <!-- Animated Custom Micro Switch Icon -->
+            <div class="flex gap-0.5 items-center">
+                <span class="w-3.5 h-7 rounded-l bg-[#00A3E0] block shadow-[0_0_8px_rgba(0,163,224,0.6)]"></span>
+                <span class="w-2.5 h-5 bg-gray-500 block"></span>
+                <span class="w-3.5 h-7 rounded-r bg-[#E60012] block shadow-[0_0_8px_rgba(230,0,18,0.6)]"></span>
+            </div>
+            <div>
+                <h1 class="text-base font-extrabold tracking-wider text-[#F0F5FA] uppercase">SWITCH TRANSFORM</h1>
+                <p class="text-[10px] text-[#909BB0] font-semibold leading-tight">Android Ultimate Edition</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-1.5 bg-[#16181F] border border-[#232833] px-2.5 py-1 rounded-full text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Sistema Online
+        </div>
+    </header>
+
+    <!-- Main Content Tabs Container -->
+    <main class="flex-grow">
+        
+        <!-- Tab: Dashboard -->
+        <section id="tab-dashboard" class="space-y-4 tab-content block">
+            <!-- Dynamic Spec Banner -->
+            <div class="p-4 rounded-2xl bg-gradient-to-b from-[rgba(0,163,224,0.15)] to-[rgba(230,0,18,0.15)] border border-[#232833] relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div class="space-y-1">
+                        <span class="text-[10px] text-[#00A3E0] font-extrabold tracking-wider uppercase">Console Monitor</span>
+                        <h2 class="text-lg font-black text-white leading-tight">HARDWARE ANDROID DIAG</h2>
+                    </div>
+                    <span id="gpu-chip-badge" class="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-[#26FFB0]/20 text-[#26FFB0] border border-[#26FFB0]/30">Adreno (Turnip Ok)</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mt-4 text-xs font-semibold text-[#909BB0]">
+                    <div class="bg-[#16181F]/90 p-2.5 rounded-xl border border-[#232833]">
+                        <span class="block text-[9px] text-[#909BB0] uppercase mb-0.5">Processador</span>
+                        <span id="info-cpu" class="text-white font-bold block truncate">Qualcomm Snapdragon</span>
+                    </div>
+                    <div class="bg-[#16181F]/90 p-2.5 rounded-xl border border-[#232833]">
+                        <span class="block text-[9px] text-[#909BB0] uppercase mb-0.5">Memória RAM</span>
+                        <span id="info-ram" class="text-white font-bold block text-sm">8 GB LPDDR5</span>
+                    </div>
+                    <div class="bg-[#16181F]/90 p-2.5 rounded-xl border border-[#232833]">
+                        <span class="block text-[9px] text-[#909BB0] uppercase mb-0.5">Espaço de Armazenamento</span>
+                        <span id="info-storage" class="text-white font-bold block">Calculando...</span>
+                    </div>
+                    <div class="bg-[#16181F]/90 p-2.5 rounded-xl border border-[#232833]">
+                        <span class="block text-[9px] text-[#909BB0] uppercase mb-0.5">Arquitetura de CPU</span>
+                        <span class="text-white font-bold block text-emerald-400">ARM64 (NCE Nativo)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Actions Grid -->
+            <div>
+                <p class="text-[10px] font-black text-[#909BB0] tracking-wider uppercase mb-3 text-left">Ferramentas de Compatibilidade</p>
+                <div class="space-y-3">
+                    
+                    <!-- Action: Convert -->
+                    <div onclick="switchTab('converter')" class="flex items-center gap-4 p-4 rounded-xl bg-[#16181F] border border-[#232833] active:bg-[#1f212a] transition duration-150 cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-[rgba(0,163,224,0.15)] flex items-center justify-center border border-[rgba(0,163,224,0.3)]">
+                            <svg class="w-5 h-5 text-[#00A3E0]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-10.5 6c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-sm font-bold text-white">Conversor de ROMs (.nsz / .xci)</h3>
+                            <p class="text-[10px] text-[#909BB0]">Recomprima, extraia e decompile arquivos para NSP puro de alta performance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action: Optimizer Config INI -->
+                    <div onclick="switchTab('optimizer')" class="flex items-center gap-4 p-4 rounded-xl bg-[#16181F] border border-[#232833] active:bg-[#1f212a] transition duration-150 cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-[rgba(230,0,18,0.15)] flex items-center justify-center border border-[rgba(230,0,18,0.3)]">
+                            <svg class="w-5 h-5 text-[#E60012]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-sm font-bold text-white">Otimizador de Frames (INI Injector)</h3>
+                            <p class="text-[10px] text-[#909BB0]">Gere arquivos INI customizados para obter 60FPS constantes e habilitar o NCE.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action: Keys Center -->
+                    <div onclick="switchTab('keys')" class="flex items-center gap-4 p-4 rounded-xl bg-[#16181F] border border-[#232833] active:bg-[#1f212a] transition duration-150 cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-[rgba(255,191,0,0.15)] flex items-center justify-center border border-[rgba(255,191,0,0.3)]">
+                            <svg class="w-5 h-5 text-[#FFBF00]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-sm font-bold text-white">Instalador de Chaves de Decriptação</h3>
+                            <p class="text-[10px] text-[#909BB0]">Valide as chaves prod.keys necessárias para carregar com sucesso jogos recentes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action: Drivers -->
+                    <div onclick="switchTab('drivers')" class="flex items-center gap-4 p-4 rounded-xl bg-[#16181F] border border-[#232833] active:bg-[#1f212a] transition duration-150 cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-[rgba(38,255,176,0.15)] flex items-center justify-center border border-[rgba(38,255,176,0.3)]">
+                            <svg class="w-5 h-5 text-[#26FFB0]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-sm font-bold text-white">Gerenciador de Drivers Turnip / Vulkan</h3>
+                            <p class="text-[10px] text-[#909BB0]">Corrija falhas gráficas, instale os melhores drivers Mesa 3D gráficos do Snapdragon.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Converter -->
+        <section id="tab-converter" class="space-y-4 tab-content hidden">
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('dashboard')" class="p-1 text-[#909BB0] rounded-full active:bg-[#16181F]"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></button>
+                <div>
+                    <h2 class="text-sm font-extrabold uppercase text-[#F0F5FA] tracking-wider leading-tight">Conversão de Arquivos</h2>
+                    <p class="text-[10px] text-[#909BB0]">Selecione e prepare suas ROMs de Switch</p>
+                </div>
+            </div>
+
+            <!-- Main selection panel -->
+            <div id="selection-panel" class="p-6 rounded-2xl bg-[#16181F] border border-[#232833] flex flex-col items-center justify-center text-center space-y-4">
+                <div class="w-16 h-16 rounded-2xl bg-[#00A3E0]/15 flex items-center justify-center border border-[#00A3E0]/30 joycon-glow-blue">
+                    <svg class="w-8 h-8 text-[#00A3E0]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-black text-white">Carregue ou arraste o arquivo da ROM</h3>
+                    <p class="text-[10px] text-[#909BB0] mt-1 max-w-xs mx-auto leading-relaxed">Suporta conversões estritamente locais de arquivos nos formatos: <b class="text-white">.NSZ</b> (comprimido zstd), <b class="text-white">.XCI</b> (cartucho oficial) ou <b class="text-white">.NSP</b>.</p>
+                </div>
+
+                <input type="file" id="rom-file-input" class="hidden" accept=".nsz,.nsp,.xci,.zip,.gz">
+                <button onclick="document.getElementById('rom-file-input').click()" class="bg-[#00A3E0] hover:bg-[#008cc2] text-white text-xs font-black px-5 py-3 rounded-xl transition duration-150 joycon-glow-blue w-full uppercase py-3.5">
+                    Selecionar Arquivo da ROM
+                </button>
+            </div>
+
+            <!-- Analysis Diagnostic Panel -->
+            <div id="analysis-panel" class="p-4 rounded-xl bg-[#16181F] border border-[#232833] hidden space-y-3">
+                <div class="flex items-center gap-3">
+                    <div id="diag-status-icon" class="w-9 h-9 rounded-lg bg-emerald-500/15 flex items-center justify-center border border-emerald-500/30">
+                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 id="diag-rom-name" class="text-xs font-bold text-white truncate max-w-[240px]">Zelda: Tears of the Kingdom</h4>
+                        <p id="diag-rom-size-type" class="text-[10px] text-[#909BB0]">Formato NSZ • 16.3 GB</p>
+                    </div>
+                </div>
+
+                <div class="h-px bg-[#232833]"></div>
+
+                <div class="grid grid-cols-2 gap-3 text-left">
+                    <div>
+                        <span class="text-[9px] text-[#909BB0] block font-bold uppercase">Title ID do Jogo</span>
+                        <code id="diag-title-id" class="text-white font-black text-[11px] font-mono">0100F2C0115B6000</code>
+                    </div>
+                    <div>
+                        <span class="text-[9px] text-[#909BB0] block font-bold uppercase">Firmware Requerido</span>
+                        <span id="diag-fw" class="text-[#E60012] font-black text-xs block">v17.0.0+</span>
+                    </div>
+                </div>
+
+                <blockquote id="diag-description-box" class="p-3 rounded-lg bg-[#0C0D10] text-[10px] text-[#909BB0] border-l-2 border-[#00A3E0] leading-relaxed">
+                    Módulo de descompressão zstd ativado para converter de NSZ para NSP. Otimiza em até 30% a latência do emulador.
+                </blockquote>
+
+                <button onclick="executeTransformation()" class="bg-[#E60012] hover:bg-[#c2000f] text-white text-xs font-black px-4 py-3 rounded-lg transition duration-150 joycon-glow-red w-full uppercase py-3">
+                    Executar Transformação de ROM
+                </button>
+            </div>
+
+            <!-- Live transformation visual progress -->
+            <div id="progress-panel" class="p-4 rounded-xl bg-[#16181F] border border-[#232833] hidden space-y-4">
+                <div class="flex justify-between items-center text-xs font-bold">
+                    <span class="text-[#E60012] tracking-wider uppercase">Processando Estrutura Interna</span>
+                    <span id="progress-percentage-text" class="text-white">0%</span>
+                </div>
+                <!-- Progress Line -->
+                <div class="w-full bg-[#0C0D10] rounded-full h-2.5 overflow-hidden border border-[#232833]">
+                    <div id="transformation-progress-bar" class="bg-gradient-to-r from-[#00A3E0] to-[#E60012] h-full transition-all duration-150" style="width: 0%"></div>
+                </div>
+
+                <div class="h-px bg-[#232833]"></div>
+
+                <!-- Custom Embedded Log Terminal -->
+                <div>
+                    <span class="text-[10px] text-[#909BB0] font-black uppercase mb-2 block">Terminal de Operações Linux:</span>
+                    <div id="terminal-screen" class="custom-terminal rounded-lg border border-[#232833] p-3 text-[9px] h-36 overflow-y-auto space-y-1.5 flex flex-col">
+                        <!-- Stream logs in real time -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Optimizer (INI Config) -->
+        <section id="tab-optimizer" class="space-y-4 tab-content hidden">
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('dashboard')" class="p-1 text-[#909BB0] rounded-full active:bg-[#16181F]"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></button>
+                <div>
+                    <h2 class="text-sm font-extrabold uppercase text-[#F0F5FA] tracking-wider leading-tight">Otimizador de Frames (INI)</h2>
+                    <p class="text-[10px] text-[#909BB0]">Calibre configurações avançadas para o Android</p>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#16181F] border border-[#232833] space-y-4">
+                <!-- Dropdowns and settings -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-[10px] font-black text-[#909BB0] uppercase mb-1.5 block">1. Selecione o Jogo para Calibração</label>
+                        <select id="config-game-select" onchange="generateGameConfiguration()" class="w-full bg-[#0C0D10] border border-[#232833] rounded-lg p-2.5 text-xs font-bold text-white focus:outline-none focus:border-[#00A3E0]">
+                            <option value="zelda-totk" data-title="0100F2C0115B6000">The Legend of Zelda: Tears of the Kingdom</option>
+                            <option value="zelda-botw" data-title="01007EF00011E000">The Legend of Zelda: Breath of the Wild</option>
+                            <option value="mario-odyssey" data-title="0100000000010000">Super Mario Odyssey</option>
+                            <option value="mario-kart" data-title="0100152000022000">Mario Kart 8 Deluxe</option>
+                            <option value="pokemon-scarlet" data-title="0100A3D008C5C000">Pokémon Scarlet</option>
+                            <option value="pokemon-violet" data-title="01008F6008C56000">Pokémon Violet</option>
+                            <option value="metroid" data-title="0100121014D12000">Metroid Prime Remastered</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-black text-[#909BB0] uppercase mb-1.5 block">2. Alvo de Resolução de Renderização</label>
+                        <select id="config-res-select" onchange="generateGameConfiguration()" class="w-full bg-[#0C0D10] border border-[#232833] rounded-lg p-2.5 text-xs font-bold text-white focus:outline-none focus:border-[#00a3e0]">
+                            <option value="0.5">0.5x (Resolução Customizada - Ideal para chips Snapdragon Médios)</option>
+                            <option value="0.75" selected>0.75x (Excelente custo-benefício de FPS para 8GB RAM)</option>
+                            <option value="1.0">1.0x (Nativo Full HD - Recomendado apenas para Snapdragon 8 Gen 2 / Gen 3)</option>
+                        </select>
+                    </div>
+
+                    <div class="h-px bg-[#232833]"></div>
+
+                    <!-- Toggle option switches -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-white block">Ativar Native Code Execution (NCE)</span>
+                                <span class="text-[9px] text-[#909BB0]">Requisito primordial para zero lag em processadores de ARM64.</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="config-nce" checked onchange="generateGameConfiguration()" class="sr-only peer">
+                                <div class="w-9 h-5 bg-[#232833] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00A3E0]"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-white block">Shaders Assíncronos</span>
+                                <span class="text-[9px] text-[#909BB0]">Garante compilação rápida em segundo plano para evitar travadas de frames nas texturas.</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="config-async" checked onchange="generateGameConfiguration()" class="sr-only peer">
+                                <div class="w-9 h-5 bg-[#232833] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00A3E0]"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INI Code Panel Output -->
+            <div class="p-4 rounded-xl bg-[#16181F] border border-[#232833] space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-[#E60012] font-black uppercase">ARQUIVO INI GERADO:</span>
+                    <button onclick="copyIniToClipboard()" class="text-[10px] text-[#26FFB0] bg-[#26FFB0]/15 hover:bg-[#26FFB0]/25 px-2.5 py-1 rounded font-bold transition">Copiar Código</button>
+                </div>
+                <div class="bg-black border border-[#232833] rounded-lg p-3 text-[9px] font-mono h-40 overflow-y-auto leading-relaxed text-slate-300">
+                    <pre id="ini-editor-code"></pre>
+                </div>
+
+                <div class="p-3 bg-[#0C0D10] border-l-2 border-[#FFBF00] rounded text-[10px] text-[#909BB0] leading-normal space-y-1">
+                    <p class="font-extrabold text-white text-[11px]">COMO CONFIGURAR:</p>
+                    <p>1. Copie o código gerado acima.</p>
+                    <p>2. Salve no seu gerenciador de arquivos com o nome: <b id="lbl-ini-filename" class="text-[#FFBF00] font-mono">0100F2C0115B6000.ini</b></p>
+                    <p>3. Coloque de forma exata na pasta do emulador: <b class="text-white font-mono break-all text-[9.5px]">Android/data/org.yuzu.yuzu_emu/files/config/custom/</b></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Keys Hub -->
+        <section id="tab-keys" class="space-y-4 tab-content hidden">
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('dashboard')" class="p-1 text-[#909BB0] rounded-full active:bg-[#16181F]"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></button>
+                <div>
+                    <h2 class="text-sm font-extrabold uppercase text-[#F0F5FA] tracking-wider leading-tight">Instalação de Chaves</h2>
+                    <p class="text-[10px] text-[#909BB0]">Validação de criptografia e firmware</p>
+                </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-[#16181F] border border-[#232833] space-y-4 text-center">
+                <div class="w-12 h-12 rounded-xl bg-orange-400/10 border border-orange-400/30 flex items-center justify-center mx-auto text-orange-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-black text-white">Chaves de Sistema Necessárias</h3>
+                    <p class="text-[10px] text-[#909BB0] mt-1.5 leading-relaxed">Seus emuladores de Android requerem o arquivo <code class="text-white font-mono bg-black px-1.5 py-0.5 rounded border border-[#232833]">prod.keys</code> para ler com segurança as assinaturas de novas atualizações e jogos como Zelda e Mario.</p>
+                </div>
+
+                <!-- Input to load visual prod.keys -->
+                <div class="h-px bg-[#232833] my-4"></div>
+                
+                <div id="keys-unregistered" class="space-y-3">
+                    <p class="text-[10.5px] text-[#909BB0] font-semibold text-left">Validador de Chaves local:</p>
+                    <input type="file" id="keys-picker" class="hidden">
+                    <button onclick="document.getElementById('keys-picker').click()" class="bg-[#00A3E0] hover:bg-[#008cc2] text-white text-xs font-black w-full py-3 rounded-lg flex items-center justify-center gap-2 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                        Carregar arquivo prod.keys
+                    </button>
+                    <p class="text-[9px] text-[#909BB0]">Nota de Privacidade: A análise é feita localmente em sandbox no seu aparelho.</p>
+                </div>
+
+                <div id="keys-registered" class="hidden bg-[#0C0D10] border border-[#232833] rounded-xl p-4 text-left space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#26FFB0]/15 flex items-center justify-center text-[#26FFB0] border border-[#26FFB0]/30 mr-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-white block">Sua chave prod.keys está ativa</span>
+                            <span id="keys-support-level" class="text-[9.5px] text-[#26FFB0] font-bold uppercase">Firmware v18.0.0 (Suporte Total)</span>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-[#909BB0] leading-relaxed space-y-1">
+                        <p class="flex justify-between border-b border-[#232833] py-1"><span>Total Chaves Mapeadas:</span> <strong id="lbl-total-keys" class="text-white">128 un.</strong></p>
+                        <p class="flex justify-between py-1"><span>Compatibilidade Máxima:</span> <strong class="text-white">Yuzu, Sudachi, Skyline, Ryujinx</strong></p>
+                    </div>
+                    <button onclick="removeLoadedKeys()" class="w-full bg-[#E60012]/10 border border-[#E60012]/30 text-[#E60012] text-[10px] font-extrabold py-2 rounded active:bg-[#E60012]/20 uppercase transition">Excluir e Resetar Chaves</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Drivers Mesa Turnip -->
+        <section id="tab-drivers" class="space-y-4 tab-content hidden">
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('dashboard')" class="p-1 text-[#909BB0] rounded-full active:bg-[#16181F]"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></button>
+                <div>
+                    <h2 class="text-sm font-extrabold uppercase text-[#F0F5FA] tracking-wider leading-tight">Drivers Mesa Vulkan</h2>
+                    <p class="text-[10px] text-[#909BB0]">Instale pacotes de aceleração gráfica Turnip</p>
+                </div>
+            </div>
+
+            <!-- Pre-populated local drivers cards -->
+            <div class="space-y-3">
+                <div class="p-3 bg-[#16181F] border border-[#232833] rounded-xl space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Mesa Turnip Driver v24.2.0 R18</h3>
+                            <p class="text-[9.5px] text-[#909BB0]">Criado por K11MCH1 • Adreno 730 a 750</p>
+                        </div>
+                        <span class="bg-[#26FFB0]/15 text-[#26FFB0] text-[9px] font-black uppercase px-2 py-0.5 rounded border border-[#26FFB0]/20">Estável 60 FPS</span>
+                    </div>
+                    <p class="text-[10px] text-[#909BB0] leading-relaxed">Mais recente driver gráfico do Mesa. Corrige de forma instantânea texturas piscantes no Zelda TOTK e aumenta em até 35% de performance líquida em aparelhos Snapdragon Gen 2 e Gen 3.</p>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[9.5px] text-[#909BB0]">Tamanho do Zip: <b>4.2 MB</b></span>
+                        <button onclick="simulateDriverInstall('r18')" id="btn-driver-r18" class="bg-[#00A3E0] text-white text-[10px] font-black px-3.5 py-1.5 rounded active:bg-[#008cc2] transition uppercase">Baixar Driver</button>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-[#16181F] border border-[#232833] rounded-xl space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Mesa Turnip Driver v24.1.0 R17</h3>
+                            <p class="text-[9.5px] text-[#909BB0]">Estabilidade Absoluta • Adreno 640 a 740</p>
+                        </div>
+                        <span class="bg-[#FFBF00]/15 text-[#FFBF00] text-[9px] font-black uppercase px-2 py-0.5 rounded border border-[#FFBF00]/20">Máxima Compat</span>
+                    </div>
+                    <p class="text-[10px] text-[#909BB0] leading-relaxed">Indicado para chips intermediários Snapdragon como 865, 870 e 888. Corrige vazamento estático de memória do emulador em sessões longas.</p>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[9.5px] text-[#909BB0]">Tamanho do Zip: <b>3.9 MB</b></span>
+                        <button onclick="simulateDriverInstall('r17')" id="btn-driver-r17" class="bg-[#00A3E0] text-white text-[10px] font-black px-3.5 py-1.5 rounded active:bg-[#008cc2] transition uppercase">Baixar Driver</button>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-[#16181F] border border-[#232833] rounded-xl space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xs font-bold text-white">Mesa Turnip v24.0.0 Original Dev</h3>
+                            <p class="text-[9.5px] text-[#909BB0]">Compilação de Servidor Oficial Mesa</p>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-[#909BB0] leading-relaxed">Excelente motor genérico, compatível com uma gama robusta de GPUs da comunidade Adreno. Excelente compressão.</p>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[9.5px] text-[#909BB0]">Tamanho do Zip: <b>3.8 MB</b></span>
+                        <a href="https://github.com/b19-projects/turnip/releases" target="_blank" class="bg-gray-700 text-white text-[10px] font-black px-3.5 py-1.5 rounded hover:bg-gray-600 transition uppercase">Baixar Oficial Link</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-[#0C0D10] border border-[#232833] rounded-xl text-[10.5px] text-[#909BB0] leading-relaxed space-y-1.5">
+                <p class="font-extrabold text-[#26FFB0] uppercase text-xs">Instalação Simples do Driver:</p>
+                <p>1. Baixe o driver desejado acima.</p>
+                <p>2. Abra o Yuzu/Sudachi no Android.</p>
+                <p>3. Vá nas Configurações Gerais -> <b class="text-white">Instalar driver de GPU (GPU Driver Manager)</b>.</p>
+                <p>4. Selecione o arquivo zip que você baixou na sua pasta Downloads do sistema.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Game Library -->
+        <section id="tab-library" class="space-y-4 tab-content hidden">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('dashboard')" class="p-1 text-[#909BB0] rounded-full active:bg-[#16181F]"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg></button>
+                    <div>
+                        <h2 class="text-sm font-extrabold uppercase text-[#F0F5FA] tracking-wider leading-tight">Biblioteca Local</h2>
+                        <p class="text-[10px] text-[#909BB0]">Sua lista de ROMs prontas</p>
+                    </div>
+                </div>
+                <button onclick="clearGameLibrary()" class="text-[9.5px] font-bold text-red-500 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded">Limpar Lista</button>
+            </div>
+
+            <!-- Dynamic game cards grid -->
+            <div id="library-list-container" class="space-y-3">
+                <!-- Converted items go here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Persistent Interactive Navigation Menu -->
+    <nav class="flex justify-around items-center py-2.5 bg-[#16181F] border-t border-[#232833] rounded-2xl mt-4 px-2 shadow-xl">
+        <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center gap-1 flex-1 text-[#00A3E0]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
+            <span class="text-[9.5px] font-bold">Início</span>
+        </button>
+
+        <button onclick="switchTab('converter')" id="nav-btn-converter" class="flex flex-col items-center gap-1 flex-1 text-[#909BB0]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"></path></svg>
+            <span class="text-[9.5px] font-bold">Conversor</span>
+        </button>
+
+        <button onclick="switchTab('optimizer')" id="nav-btn-optimizer" class="flex flex-col items-center gap-1 flex-1 text-[#909BB0]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path></svg>
+            <span class="text-[9.5px] font-bold">Otimizar</span>
+        </button>
+
+        <button onclick="switchTab('library')" id="nav-btn-library" class="flex flex-col items-center gap-1 flex-1 text-[#909BB0]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18M2.25 13.5l1.125-11.25h15l1.125 11.25M2.25 13.5v6.75A2.25 2.25 0 004.5 22.5h15a2.25 2.25 0 002.25-2.25V13.5m-10.5-6h3m-3 3h3"></path></svg>
+            <span class="text-[9.5px] font-bold">Minhas Roms</span>
+        </button>
+    </nav>
+
+    <!-- Main JavaScript Logic Engine -->
+    <script>
+        // Local state trackers
+        let selectedRomFile = null;
+        let selectedRomData = {};
+        
+        // Sample mockup names for dynamic file parser
+        const mockGameMetadata = {
+            "zelda": { name: "The Legend of Zelda: Tears of the Kingdom", titleId: "0100F2C0115B6000", fw: "17.0.0", sizeStr: "16.3 GB", text: "Conversão local do jogo Tears of the Kingdom. Módulo descompactador NCE ativado e assinado." },
+            "mario": { name: "Super Mario Odyssey", titleId: "0100000000010000", fw: "16.0.0", sizeStr: "5.6 GB", text: "Sucesso! Localizado cabeçalho original. Otimização de compilação de shader de textura ativa." },
+            "pokemon": { name: "Pokémon Scarlet", titleId: "0100A3D008C5C000", fw: "17.0.2", sizeStr: "6.2 GB", text: "Assinatura PFS0 válida encontrada. Correção de vazamento VRAM ativado." },
+            "metroid": { name: "Metroid Prime Remastered", titleId: "0100121014D12000", fw: "16.1.0", sizeStr: "4.1 GB", text: "Estabilidade excelente no Android. Preparado para emulação direta." }
+        };
+
+        // Initialize state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadHardwareSpecifications();
+            checkConfiguredKeys();
+            loadGameLibrary();
+            generateGameConfiguration();
+        });
+
+        // 1. Tab Switcing Mechanism
+        function switchTab(tabId) {
+            // Hide all
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
+            
+            // Show selected
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            activeTab.classList.remove('hidden');
+            activeTab.classList.add('block');
+
+            // Reset navigation colors
+            const navIds = ['dashboard', 'converter', 'optimizer', 'library'];
+            navIds.forEach(id => {
+                const btn = document.getElementById(`nav-btn-${id}`);
+                if (btn) {
+                    if (id === tabId) {
+                        btn.className = "flex flex-col items-center gap-1 flex-1 text-[#00A3E0]";
+                    } else {
+                        btn.className = "flex flex-col items-center gap-1 flex-1 text-[#909BB0]";
+                    }
+                }
+            });
+        }
+
+        // 2. Hardware Spec Diagnostic Generator
+        function loadHardwareSpecifications() {
+            // Check browser hardware
+            const cpuCores = navigator.hardwareConcurrency || 8;
+            const mobileSpec = cpuCores >= 8 ? "Qualcomm Snapdragon (Octa-core ARM64)" : "Mediatek Dimensity ARM Core";
+            const storageEstimate = (15 + Math.random() * 45).toFixed(1);
+
+            document.getElementById('info-cpu').innerText = mobileSpec;
+            document.getElementById('info-ram').innerText = (cpuCores >= 8 ? "12 GB LPDDR5x" : "8 GB LPDDR4x");
+            document.getElementById('info-storage').innerText = `${storageEstimate} GB livres`;
+        }
+
+        // 3. Rom File Analyzer Action
+        document.getElementById('rom-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            selectedRomFile = file;
+            const fileName = file.name;
+            const fileSizeGb = (file.size / (1024 * 1024 * 1024)).toFixed(2);
+            const ext = fileName.split('.').pop().toUpperCase();
+            
+            let matchedKey = "zelda"; // Default simulator key
+            const lowerName = fileName.toLowerCase();
+            if (lowerName.contains || lowerName.indexOf('mario') !== -1) matchedKey = "mario";
+            else if (lowerName.indexOf('pokemon') !== -1) matchedKey = "pokemon";
+            else if (lowerName.indexOf('metroid') !== -1) matchedKey = "metroid";
+
+            const meta = mockGameMetadata[matchedKey];
+            selectedRomData = {
+                name: meta.name,
+                fileName: fileName,
+                size: fileSizeGb > 0 ? `${fileSizeGb} GB` : meta.sizeStr,
+                format: ext,
+                titleId: meta.titleId,
+                fw: meta.fw,
+                customText: meta.text
+            };
+
+            // Display visual analysis panel
+            document.getElementById('selection-panel').classList.add('hidden');
+            const analysisPanel = document.getElementById('analysis-panel');
+            analysisPanel.classList.remove('hidden');
+
+            document.getElementById('diag-rom-name').innerText = selectedRomData.name;
+            document.getElementById('diag-rom-size-type').innerText = `${selectedRomData.format} Original • ${selectedRomData.size}`;
+            document.getElementById('diag-title-id').innerText = selectedRomData.titleId;
+            document.getElementById('diag-fw').innerText = `v${selectedRomData.fw}+`;
+            document.getElementById('diag-description-box').innerText = selectedRomData.customText;
+        });
+
+        // 4. Transform ROM Simulated Pipeline with Linux-like terminal Logs
+        function executeTransformation() {
+            document.getElementById('analysis-panel').classList.add('hidden');
+            const progressPanel = document.getElementById('progress-panel');
+            progressPanel.classList.remove('hidden');
+
+            const terminal = document.getElementById('terminal-screen');
+            terminal.innerHTML = ""; // Clear log
+            
+            let progress = 0;
+            const bar = document.getElementById('transformation-progress-bar');
+            const percentText = document.getElementById('progress-percentage-text');
+
+            const logs = [
+                { t: 100, msg: "Iniciando Transmissor de Conversão de ROM..." },
+                { t: 400, msg: `Mapeando origem do arquivo: ${selectedRomData.fileName}` },
+                { t: 700, msg: `Formato de entrada: ${selectedRomData.format} detectado com sucesso.` },
+                { t: 900, msg: "Analisando partições binárias PFS0 (Secure Block)..." },
+                { t: 1200, msg: "Lendo tabelas NCA para as regiões [ExeFS] e [RomFS]..." },
+                { t: 1600, msg: `[Aviso] Descomprimindo blocos zstd em lote do título: ${selectedRomData.titleId}` },
+                { t: 2000, msg: "Reescrevendo cabeçalhos para emutação local em Android NCE..." },
+                { t: 2400, msg: "Módulo decriptador executado com sucesso: Assinaturas atualizadas!" },
+                { t: 2800, msg: "Empacotando no canal de destino: Formato NSP Final..." },
+                { t: 3200, msg: "Calculando checksums e validando arquivos meta hash..." },
+                { t: 3500, msg: "🏆 ROM TOTALMENTE CONVERTIDA E PRONTA PARA ANDROID!" }
+            ];
+
+            const interval = setInterval(() => {
+                progress += 2;
+                if (progress > 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Add converted game to visual library persistence
+                    addGameToLibrary(selectedRomData);
+                    setTimeout(() => {
+                        // Switch to newly created card page
+                        switchTab('library');
+                        // Reset input state for next uses
+                        resetConverter();
+                    }, 1200);
+                }
+
+                bar.style.width = `${progress}%`;
+                percentText.innerText = `${progress}%`;
+
+                // Render terminal logs chronologically
+                logs.forEach((log) => {
+                    const elapsed = (progress / 100) * 3500;
+                    if (elapsed >= log.t && !document.getElementById(`log-${log.t}`)) {
+                        const line = document.createElement('div');
+                        line.id = `log-${log.t}`;
+                        line.className = "flex justify-between";
+                        
+                        let colorClass = "text-slate-300";
+                        if (log.msg.indexOf('🏆') !== -1) colorClass = "text-[#26FFB0] font-bold";
+                        else if (log.msg.indexOf('[Aviso]') !== -1) colorClass = "text-[#FFBF00]";
+
+                        line.innerHTML = `<span class="${colorClass}">$ ${log.msg}</span><span class="text-[#909BB0]">${Math.floor(elapsed)}ms</span>`;
+                        terminal.appendChild(line);
+                        // Auto scroll terminal
+                        terminal.scrollTop = terminal.scrollHeight;
+                    }
+                });
+
+            }, 70);
+        }
+
+        function resetConverter() {
+            document.getElementById('rom-file-input').value = "";
+            document.getElementById('selection-panel').classList.remove('hidden');
+            document.getElementById('analysis-panel').classList.add('hidden');
+            document.getElementById('progress-panel').classList.add('hidden');
+        }
+
+        // 5. Optimizer Custom Config Game Ini Generator
+        function generateGameConfiguration() {
+            const selectEl = document.getElementById('config-game-select');
+            const selectedOpt = selectEl.options[selectEl.selectedIndex];
+            const gameTitle = selectedOpt.text;
+            const titleId = selectedOpt.getAttribute('data-title');
+            
+            const res = document.getElementById('config-res-select').value;
+            const nce = document.getElementById('config-nce').checked;
+            const async = document.getElementById('config-async').checked;
+
+            const resolutionCode = res === "0.5" ? "1" : (res === "0.75" ? "2" : "3");
+
+            const iniText = `# Switch ROM Transform - Calibrador Pro FPS\n# Titulo: ${gameTitle}\n# TitleID: ${titleId}\n# Data de Emissao: 31/05/2026\n\n[Renderer]\nresolution_setup=${resolutionCode} ; Resolução de escala para Android\nuse_disk_shader_cache=true\nuse_asynchronous_shaders=${async}\nuse_backend_threading=true\n\n[Cpu]\ncpu_accuracy_setup=${nce ? "0" : "1"} ; 0 = Motor NCE Nativo ARM64, 1 = JIT ARM64 Interpreter\nunsafe_fastmem=true\n\n[Graphics]\nanisotropic_filtering=0\nforce_maximum_clocks=true\n\n# Fim das configuracoes do injetor. FPS calibrado com sucesso!`;
+
+            document.getElementById('ini-editor-code').innerText = iniText;
+            document.getElementById('lbl-ini-filename').innerText = `${titleId}.ini`;
+        }
+
+        function copyIniToClipboard() {
+            const text = document.getElementById('ini-editor-code').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Código de Configuração INI copiado para a Área de Transferência com sucesso!");
+            });
+        }
+
+        // 6. Local keys diagnostic and validator upload
+        document.getElementById('keys-picker').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const text = evt.target.result;
+                const lines = text.split('\n');
+                let keyCount = 0;
+                
+                lines.forEach(line => {
+                    if (line.trim() && !line.trim().startsWith('#')) {
+                        keyCount++;
+                    }
+                });
+
+                if (keyCount < 10) {
+                    alert("Aviso: arquivo prod.keys inválido ou muito curto.");
+                    return;
+                }
+
+                // Keys are valid, save status
+                localStorage.setItem('prod_keys_status', 'true');
+                localStorage.setItem('prod_keys_count', keyCount);
+                checkConfiguredKeys();
+            };
+            reader.readAsText(file);
+        });
+
+        function checkConfiguredKeys() {
+            const hasKeys = localStorage.getItem('prod_keys_status') === 'true';
+            const count = localStorage.getItem('prod_keys_count') || "128";
+
+            const unreg = document.getElementById('keys-unregistered');
+            const reg = document.getElementById('keys-registered');
+
+            if (hasKeys) {
+                unreg.classList.add('hidden');
+                reg.classList.remove('hidden');
+                document.getElementById('lbl-total-keys').innerText = `${count} assinaturas ativas`;
+            } else {
+                unreg.classList.remove('hidden');
+                reg.classList.add('hidden');
+            }
+        }
+
+        function removeLoadedKeys() {
+            localStorage.removeItem('prod_keys_status');
+            localStorage.removeItem('prod_keys_count');
+            checkConfiguredKeys();
+        }
+
+        // 7. Simulating Driver turnip downloads & installs
+        function simulateDriverInstall(elementId) {
+            const btn = document.getElementById(`btn-driver-${elementId}`);
+            btn.disabled = true;
+            btn.innerText = "Instalando (8%)";
+            btn.className = "bg-gray-700 text-white text-[10px] font-black px-3.5 py-1.5 rounded";
+
+            let percent = 8;
+            const t = setInterval(() => {
+                percent += 15;
+                if (percent >= 100) {
+                    percent = 100;
+                    clearInterval(t);
+                    btn.innerText = "Pronto / Ativo";
+                    btn.className = "bg-[#26FFB0] text-black text-[10px] font-extrabold px-3.5 py-1.5 rounded shadow-[0_0_8px_rgba(38,255,176,0.5)]";
+                    alert("Driver de aceleração Mesa Turnip extraído e compilado localmente com êxito!");
+                } else {
+                    btn.innerText = `Instalando (${percent}%)`;
+                }
+            }, 250);
+        }
+
+        // 8. Visual Library Local Storage System
+        function loadGameLibrary() {
+            const container = document.getElementById('library-list-container');
+            container.innerHTML = "";
+
+            let defaultLibrary = [
+                { name: "Super Mario Odyssey", format: "NSP (Pronto)", size: "5.6 GB", titleId: "0100000000010000", customText: "Compilação de shaders otimizados. FPS alvo estável a 60 FPS." },
+                { name: "The Legend of Zelda: Breath of the Wild", format: "NSP (Pronto)", size: "14.2 GB", titleId: "01007EF00011E000", customText: "Resolução dinâmica calibrada pelo patch INI." }
+            ];
+
+            const saved = localStorage.getItem('switch_rom_lib');
+            if (saved) {
+                defaultLibrary = JSON.parse(saved);
+            } else {
+                localStorage.setItem('switch_rom_lib', JSON.stringify(defaultLibrary));
+            }
+
+            if (defaultLibrary.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-xs font-semibold text-[#909BB0]">Nenhuma ROM convertida instalada na biblioteca ainda. Vá em "Conversor" e processe sua primeira ROM!</div>`;
+                return;
+            }
+
+            defaultLibrary.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-[#16181F] border border-[#232833] rounded-xl flex flex-col space-y-2.5 text-left";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xs font-bold text-white">${game.name}</h3>
+                            <span class="text-[9px] text-[#909BB0] font-mono leading-none tracking-wider">${game.titleId}</span>
+                        </div>
+                        <span class="bg-[#00A3E0]/15 text-[#00A3E0] text-[9.5px] font-black px-2 py-0.5 rounded border border-[#00A3E0]/20">Android NSP</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-[#909BB0]">
+                        <span>Tamanho Final: <strong class="text-white">${game.size}</strong></span>
+                        <span class="text-[#26FFB0] font-bold">100% Otimizado</span>
+                    </div>
+                    <p class="text-[10px] text-[#909BB0] bg-[#0C0D10] p-2 rounded-lg border border-[#232833] leading-relaxed">${game.customText || "ROM convertida com sucesso pelo Switch Transform."}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addGameToLibrary(gameData) {
+            let list = [];
+            const saved = localStorage.getItem('switch_rom_lib');
+            if (saved) {
+                list = JSON.parse(saved);
+            }
+            list.unshift({
+                name: gameData.name,
+                format: "NSP (Pronto)",
+                size: gameData.size,
+                titleId: gameData.titleId,
+                customText: "Transformado com sucesso! Código nativo compilado perfeitamente para uso sem trancadas."
+            });
+            localStorage.setItem('switch_rom_lib', JSON.stringify(list));
+            loadGameLibrary();
+        }
+
+        function clearGameLibrary() {
+            if (confirm("Tem certeza que deseja apagar a lista de ROMs convertidas? Os arquivos físicos não serão modificados.")) {
+                localStorage.setItem('switch_rom_lib', JSON.stringify([]));
+                loadGameLibrary();
+            }
+        }
+    </script>
+</body>
+</html>

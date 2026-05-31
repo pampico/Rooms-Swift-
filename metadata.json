@@ -1,0 +1,6 @@
+{
+  "name": "Switch Rom Transform",
+  "description": "Transforme, otimize e gerencie ROMs do Nintendo Switch para rodar perfeitamente no Android com o máximo de desempenho.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
